@@ -44,7 +44,10 @@ h2 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.25rem; }
 }
 .col { display: flex; flex-direction: column; gap: 2rem; min-width: 0; }
 #left { grid-area: left; } #mid { grid-area: mid; } #right { grid-area: right; }
-.top { grid-area: title; display: flex; justify-content: space-between; align-items: flex-start; gap: 1.5rem; }
+.top {
+  grid-area: title; display: flex; justify-content: space-between; align-items: flex-start; gap: 1.5rem;
+  padding-bottom: 1.25rem; border-bottom: 1px solid var(--blue);
+}
 .top h1 { margin-bottom: 0.4rem; }
 .lede { font-size: 0.8rem; color: var(--fg-dim); max-width: 78ch; }
 .top > .pill { flex-shrink: 0; text-decoration: none; color: var(--fg); }
@@ -186,7 +189,8 @@ footer button:hover { background: var(--blue); color: var(--blue-fg); text-decor
 .refs-page { max-width: 960px; }
 .refs-page .top { margin-bottom: 2rem; }
 .top-actions { display: flex; gap: 0.4rem; flex-wrap: wrap; justify-content: flex-end; }
-.top-actions .pill { text-decoration: none; color: var(--fg); }
+.top-actions .pill, .add-link { text-decoration: none; color: var(--fg); }
+.add-link { display: inline-block; margin-bottom: 1rem; }
 .refs { display: grid; gap: 1rem; }
 .syllabus { border: 1px solid var(--blue); border-radius: 16px; padding: 1rem 1.25rem; }
 .syllabus h2 a { color: var(--fg); }
