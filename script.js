@@ -276,7 +276,7 @@ update();
 // The policy only collapses on narrow screens, so Expand comes and goes with the width.
 addEventListener('resize', update);
 
-fetch('syllabi.json').then(r => r.json())
+loadSyllabi()
   .then(list => $('refLink').textContent = `See reference syllabi (${list.length})`)
   .catch(() => {});
 
