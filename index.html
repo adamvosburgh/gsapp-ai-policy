@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>GSAPP AI Policy Generator</title>
+<meta name="description" content="Build a course AI policy for Columbia GSAPP syllabi.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<main>
+  <div class="layout" id="layout">
+    <header class="top">
+      <div>
+        <h1>GSAPP AI Policy Generator</h1>
+        <p class="lede">Choose a starting position, a program, and any specific uses below to build an AI policy for your syllabus, then copy it as text or download it as a diagram. To keep it short, the text names only the exceptions to your starting position: uses that are restricted, conditional, or, in a strict policy, allowed.</p>
+      </div>
+      <a class="pill" id="refLink" href="references.html">See reference syllabi</a>
+    </header>
+
+    <div class="col" id="left">
+    <section id="s1" aria-labelledby="levelTitle">
+      <span class="step">Step 1</span>
+      <h2 id="levelTitle">Starting position on AI</h2>
+      <p class="hint">Changing this resets the uses in step 3. Conditions you have written are kept.</p>
+      <div class="levels" id="levels" role="radiogroup" aria-labelledby="levelTitle"></div>
+    </section>
+
+    <section id="s2" aria-labelledby="programTitle">
+      <span class="step">Step 2</span>
+      <h2 id="programTitle">Program</h2>
+      <p class="hint">Each program has core categories. Their uses start with conditions.</p>
+      <div class="pills" id="programs" role="radiogroup" aria-labelledby="programTitle"></div>
+      <p class="core-note" id="coreNote"></p>
+    </section>
+
+    <section id="s4" aria-labelledby="discTitle">
+      <span class="step">Step 4</span>
+      <h2 id="discTitle">Disclosure</h2>
+      <p class="sub" id="whenLabel">When must students disclose AI use?</p>
+      <div class="pills" id="when" role="radiogroup" aria-labelledby="whenLabel"></div>
+      <p class="sub">What should a disclosure include?</p>
+      <div class="pills" id="include"></div>
+    </section>
+    </div>
+
+    <div class="col" id="mid">
+    <section id="s3" aria-labelledby="useTitle">
+      <span class="step">Step 3</span>
+      <h2 id="useTitle">Specific uses</h2>
+      <p class="hint">Set each use. Choose yellow to write the conditions under which it is allowed.</p>
+      <div class="legend">
+        <span><i style="background:var(--yes)"></i>Allowed</span>
+        <span><i style="background:var(--cond)"></i>With conditions</span>
+        <span><i style="background:var(--no)"></i>Not allowed</span>
+      </div>
+      <div class="media inactive" id="media"></div>
+    </section>
+    </div>
+
+    <div class="col" id="right">
+    <section class="policy collapsed" id="policyBox" aria-label="Generated policy">
+      <span class="step">Policy</span>
+      <div class="policy-text" id="policy" aria-live="polite"></div>
+      <div class="policy-actions">
+        <button class="pill" id="expand" aria-expanded="false">Expand ↓</button>
+        <button class="pill" id="copy">Copy policy</button>
+        <button class="pill" id="png">Diagram .png</button>
+        <button class="pill" id="svg">Diagram .svg</button>
+        <span class="status" id="feedback" role="status"></span>
+      </div>
+    </section>
+
+    <section id="s5" aria-labelledby="ownTitle">
+      <span class="step">Step 5</span>
+      <h2 id="ownTitle">Add your own language</h2>
+      <p class="hint">Optional. Added as written near the end of the policy, before the closing lines. It also appears on the diagram.</p>
+      <textarea id="extra" rows="4" aria-labelledby="ownTitle" placeholder="e.g. Reviews and pin-ups are AI-free: present only work you made."></textarea>
+    </section>
+    </div>
+  </div>
+
+  <footer>
+    <button id="reset">Start over</button>
+  </footer>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>

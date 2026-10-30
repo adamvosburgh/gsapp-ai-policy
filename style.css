@@ -1,0 +1,213 @@
+/* Color scheme, after the SMT course site turned inside out: a white ground,
+   the site's blue for rules, accents, and buttons, and its green for text
+   selection and link hover. Nothing below carries a literal color. */
+:root {
+  --bg:      #ffffff;
+  --fg:      #111111;
+  --fg-dim:  #555566;
+  --blue:    #2424e0;
+  --blue-fg: #ffffff;              /* text on blue: hovered and active buttons */
+  --hi:      #00ff00;              /* highlighter: text selection, link hover */
+  --hi-fg:   #000000;
+  /* Status, softened. --x is the mark, --x-tint fills a chip. */
+  --yes:     #6fca8d;  --yes-tint:  #e3f6e9;
+  --cond:    #f2c94c;  --cond-tint: #fdf3cf;
+  --no:      #f08a94;  --no-tint:   #fde3e5;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font: 14px/1.6 'Roboto Mono', monospace;
+  color: var(--fg);
+  background: var(--bg);
+}
+::selection { background: var(--hi); color: var(--hi-fg); }
+a { color: var(--blue); text-decoration: underline; }
+a:hover { background: var(--hi); color: var(--hi-fg); text-decoration: none; }
+button, input, textarea { font: inherit; color: inherit; }
+button { cursor: pointer; background: none; border: 0; }
+:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+[hidden] { display: none !important; }
+
+main { max-width: 1440px; margin: 0 auto; padding: 2rem 2rem 3rem; }
+h1 { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; }
+h2 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.25rem; }
+.step { display: block; font-size: 0.72rem; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: var(--blue); margin-bottom: 0.2rem; }
+.hint { font-size: 0.78rem; color: var(--fg-dim); margin-bottom: 0.9rem; }
+
+/* Three columns: the short steps, the uses, and the policy they build,
+   which runs from below the title to the bottom of the longer step column. */
+.layout {
+  display: grid; gap: 2rem 2.5rem; align-items: start;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1.25fr);
+  grid-template-areas: "title title title" "left mid right";
+}
+.col { display: flex; flex-direction: column; gap: 2rem; min-width: 0; }
+#left { grid-area: left; } #mid { grid-area: mid; } #right { grid-area: right; }
+.top { grid-area: title; display: flex; justify-content: space-between; align-items: flex-start; gap: 1.5rem; }
+.top h1 { margin-bottom: 0.4rem; }
+.lede { font-size: 0.8rem; color: var(--fg-dim); max-width: 78ch; }
+.top > .pill { flex-shrink: 0; text-decoration: none; color: var(--fg); }
+#policyBox { grid-area: policy; }
+#s1 { grid-area: s1; } #s2 { grid-area: s2; } #s3 { grid-area: s3; } #s4 { grid-area: s4; } #s5 { grid-area: s5; }
+/* The step columns set the height; contain: size keeps the right column from
+   adding to it. The policy takes what step 5 leaves and scrolls inside. */
+@media (min-width: 701px) {
+  #right { align-self: stretch; contain: size; }
+  #policyBox { flex: 1; min-height: 0; display: flex; flex-direction: column; }
+  #policyBox .policy-text { flex: 1; overflow-y: auto; }
+}
+
+/* Pills, as in the course site's nav */
+.pills { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+.pill {
+  border: 1px solid var(--blue); border-radius: 50px;
+  padding: 0.3rem 0.8rem; font-size: 0.78rem; white-space: nowrap;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.pill:hover, .pill[aria-pressed="true"], .pill[aria-checked="true"] { background: var(--blue); color: var(--blue-fg); }
+.pill[aria-pressed="true"], .pill[aria-checked="true"] { font-weight: 700; }
+.pill:disabled { opacity: 0.4; pointer-events: none; }
+
+/* Policy */
+.policy { border: 1px solid var(--blue); border-radius: 16px; padding: 1.1rem 1.25rem 0.9rem; background: var(--bg); }
+.policy-text { position: relative; font-size: 0.85rem; line-height: 1.7; overflow: hidden; }
+.policy-text p + p, .policy-text p + ul, .policy-text ul + p { margin-top: 0.7rem; }
+.policy-text ul { padding-left: 1.2rem; margin-top: 0.3rem; }
+.policy-text .empty { color: var(--fg-dim); }
+@media (max-width: 700px) {
+  .policy.collapsed .policy-text { max-height: 10.2em; }
+  .policy.collapsed.overflows .policy-text::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 3.4em;
+    background: linear-gradient(rgba(255, 255, 255, 0), var(--bg));
+  }
+}
+.policy-actions { display: flex; gap: 0.4rem; align-items: center; margin-top: 0.8rem; flex-wrap: wrap; }
+.policy-actions .status { font-size: 0.75rem; color: var(--fg-dim); margin-left: auto; }
+
+/* Step 1 */
+.levels { display: grid; gap: 0.5rem; }
+.level {
+  text-align: left; border: 1px solid var(--blue); border-radius: 14px;
+  padding: 0.6rem 0.9rem; display: grid; gap: 0.15rem;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.level:hover { background: var(--blue); color: var(--blue-fg); }
+.level:hover span { color: var(--blue-fg); }
+.level[aria-checked="true"], .level[aria-checked="true"]:hover { background: var(--tint); color: var(--fg); }
+.level[aria-checked="true"] span { color: var(--fg); }
+.level strong { font-size: 0.85rem; display: flex; align-items: center; gap: 0.5rem; }
+.level strong i { width: 10px; height: 10px; border-radius: 50%; background: var(--tone); flex-shrink: 0; }
+.level span { font-size: 0.74rem; color: var(--fg-dim); line-height: 1.5; }
+.level.red { --tone: var(--no); --tint: var(--no-tint); }
+.level.yellow { --tone: var(--cond); --tint: var(--cond-tint); }
+.level.green { --tone: var(--yes); --tint: var(--yes-tint); }
+.core-note { font-size: 0.75rem; color: var(--fg-dim); margin-top: 0.7rem; }
+
+/* Step 3: one dashed tray per medium, its name set into the top edge */
+.legend { display: flex; flex-wrap: wrap; gap: 0.4rem 1rem; font-size: 0.75rem; color: var(--fg-dim); margin-bottom: 1rem; }
+.legend span { display: inline-flex; align-items: center; gap: 0.4rem; }
+.legend i { width: 10px; height: 10px; border-radius: 50%; }
+/* Packed in two columns with one gap across and down. The legend pill sits
+   above each box's border, so the gap is measured to the pill's top. */
+.media { columns: 2; column-gap: 1.25rem; }
+.medium { break-inside: avoid; margin-bottom: 1.25rem; }
+.media.inactive { opacity: 0.4; pointer-events: none; }
+.medium { border: 1.5px dashed var(--blue); border-radius: 24px; padding: 0.4rem 0.8rem 0.8rem; min-width: 0; width: 100%; }
+.medium legend {
+  margin: 0 auto; padding: 0.15rem 0.8rem; border: 1px solid var(--blue); border-radius: 50px;
+  background: var(--bg); font-size: 0.8rem; font-weight: 700;
+}
+.medium.core legend { background: var(--blue); color: var(--blue-fg); }
+.medium.core legend::after { content: ' · core'; font-weight: 400; }
+.medium .tally { font-size: 0.7rem; color: var(--fg-dim); text-align: center; margin-bottom: 0.6rem; }
+.uses { display: flex; flex-direction: column; gap: 0.35rem; }
+.use {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 0.45rem;
+  border: 1px solid var(--blue); border-radius: 50px;
+  padding: 0.2rem 0.3rem 0.2rem 0.75rem; font-size: 0.76rem; text-align: left;
+}
+.use.yes { background: var(--yes-tint); }
+.use.cond { background: var(--cond-tint); border-radius: 16px; padding-bottom: 0.4rem; }
+.use.no { background: var(--no-tint); }
+.use .label { flex: 1; min-width: 0; }
+.use .label abbr { text-decoration: none; cursor: help; border-bottom: 1px dotted var(--fg-dim); }
+.tri { display: inline-flex; gap: 3px; }
+.tri button {
+  width: 19px; height: 19px; border-radius: 50%; border: 2px solid var(--c); background: var(--bg);
+  color: transparent; font-size: 10px; font-weight: 700; line-height: 1; display: grid; place-items: center;
+}
+.tri button:hover { background: var(--blue); border-color: var(--blue); }
+.tri button[aria-checked="true"] { background: var(--c); color: var(--fg); }
+.tri .yes { --c: var(--yes); } .tri .cond { --c: var(--cond); } .tri .no { --c: var(--no); }
+.use input {
+  flex-basis: 100%; border: 1px solid var(--blue); border-radius: 8px; background: var(--bg);
+  padding: 0.3rem 0.5rem; font-size: 0.74rem; margin-right: 0.3rem;
+}
+
+/* Steps 4 and 5 */
+.sub { font-size: 0.8rem; font-weight: 700; margin: 0.9rem 0 0.45rem; }
+#s4 .sub:first-of-type { margin-top: 0.4rem; }
+.pills.disabled { opacity: 0.4; pointer-events: none; }
+#when .pill { white-space: normal; text-align: left; border-radius: 16px; }
+#extra {
+  display: block; width: 100%; resize: vertical; border: 1px solid var(--blue); border-radius: 12px;
+  background: var(--bg); padding: 0.6rem 0.8rem; font-size: 0.8rem; line-height: 1.6;
+}
+#extra::placeholder, .use input::placeholder { color: var(--fg-dim); }
+
+footer { margin-top: 3rem; padding-top: 0.8rem; border-top: 1px solid var(--blue); font-size: 0.72rem; display: flex; justify-content: flex-end; }
+footer button { text-decoration: underline; color: var(--blue); }
+footer button:hover { background: var(--blue); color: var(--blue-fg); text-decoration: none; }
+
+@media (max-width: 1100px) {
+  .layout {
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    grid-template-areas: "title title" "s1 right" "s2 right" "s3 right" "s4 right";
+  }
+  #left, #mid { display: contents; }
+}
+@media (max-width: 700px) {
+  main { padding: 1.5rem 16px 2.5rem; }
+  .top { flex-direction: column; gap: 0.8rem; }
+  .layout { grid-template-columns: 1fr; grid-template-areas: "title" "policy" "s1" "s2" "s3" "s4" "s5"; }
+  .col { display: contents; }
+  .media { columns: 1; }
+}
+@media print {
+  main > footer, .layout > :not(#right), #s5 { display: none !important; }
+  .layout, #right { display: block; contain: none; }
+  .policy { border: 0; padding: 0; }
+  .policy.collapsed .policy-text { max-height: none; }
+  .policy-text::after, .policy-actions { display: none !important; }
+}
+
+/* Reference syllabi page */
+.refs-page { max-width: 960px; }
+.refs-page .top { margin-bottom: 2rem; }
+.top-actions { display: flex; gap: 0.4rem; flex-wrap: wrap; justify-content: flex-end; }
+.top-actions .pill { text-decoration: none; color: var(--fg); }
+.add-form { border: 1px solid var(--blue); border-radius: 16px; padding: 1.1rem 1.25rem; margin-bottom: 2rem; }
+.fields { display: grid; grid-template-columns: 1fr 1fr; gap: 0.9rem 1rem; margin-top: 0.4rem; }
+.fields label { display: grid; gap: 0.3rem; font-size: 0.78rem; font-weight: 700; }
+.fields .wide { grid-column: 1 / -1; }
+.fields .optional { font-weight: 400; color: var(--fg-dim); }
+.fields input, .fields textarea {
+  width: 100%; border: 1px solid var(--blue); border-radius: 8px; background: var(--bg);
+  padding: 0.4rem 0.6rem; font-size: 0.8rem; font-weight: 400;
+}
+.fields input[type=file] { padding: 0.3rem; }
+.fields textarea { resize: vertical; line-height: 1.6; }
+.form-actions { display: flex; align-items: center; gap: 0.8rem; margin-top: 1rem; flex-wrap: wrap; }
+.form-actions .status { font-size: 0.78rem; color: var(--fg-dim); }
+.refs { display: grid; gap: 1rem; }
+.syllabus { border: 1px solid var(--blue); border-radius: 16px; padding: 1rem 1.25rem; }
+.syllabus h2 a { color: var(--fg); }
+.syllabus .faculty { font-size: 0.8rem; color: var(--fg-dim); }
+.syllabus blockquote { margin-top: 0.8rem; padding-left: 0.9rem; border-left: 1.5px dashed var(--blue); font-size: 0.8rem; line-height: 1.7; }
+.syllabus blockquote p + p { margin-top: 0.6rem; }
+@media (max-width: 700px) {
+  .fields { grid-template-columns: 1fr; }
+  .top-actions { justify-content: flex-start; }
+}
+.form-note { margin: 0.6rem 0 0; }
